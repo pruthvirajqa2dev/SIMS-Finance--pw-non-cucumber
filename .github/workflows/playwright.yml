@@ -19,19 +19,25 @@ jobs:
               run: npx playwright install --with-deps
             - name: Setup Pages
               uses: actions/configure-pages@v2
+            - uses: actions/upload-artifact@v3
+              if: always()
+              with:
+                  name: MergeReport
+                  path: test-merge-report-demo/
+                  retention-days: 3
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v1
               with:
                   # Upload entire repository
                   path: test-merge-report-demo/
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v1
-            - name: Run Playwright tests
-              run: npx playwright test
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
               with:
                   name: playwright-report
                   path: playwright-report/
                   retention-days: 30
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v1
+            - name: Run Playwright tests
+              run: npx playwright test
