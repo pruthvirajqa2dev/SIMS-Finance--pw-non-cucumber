@@ -67,7 +67,7 @@ jobs:
               with:
                   name: html-report
                   path: playwright-report/
-            - name: Setup Pagess
+            - name: Setup Pages
               uses: actions/configure-pages@v2
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v1
@@ -77,5 +77,7 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v1
+              with:
+                  artifact_name: html-reports-to-pages
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
