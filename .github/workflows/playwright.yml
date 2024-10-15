@@ -67,7 +67,7 @@ jobs:
               with:
                   name: html-report
                   path: playwright-report/
-            - name: Setup Pages
+            - name: Setup Pagess
               uses: actions/configure-pages@v2
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v1
