@@ -23,9 +23,7 @@ test.describe("Postchecks", () => {
                 "This test is for performing login to SIMS Finance and then for user " +
                 ENV.USERID!
         });
-        // let homepage;
         //Login
-
         const homepage =
             await test.step(`Login using ${ENV.USERID!}`, async () => {
                 return await login(page);
@@ -35,31 +33,55 @@ test.describe("Postchecks", () => {
         await test.step(`Expect home page elements visible on Load`, async () => {
             await homepage.expectPageElementsVisibilityOnLoad();
         });
-
-        await homepage.logout();
+        await test.step(`Click on profile and logout button`, async () => {
+            await homepage.logout();
+        });
         //Assertions
-        const expectedDialogTitle = expectedTexts.expectedLogoutDialogTitle;
-        const expectedDialogContent = expectedTexts.expectedLogoutDialogContent;
-        await homepage.verifyDialogTitleAndContent(
-            expectedDialogTitle,
-            expectedDialogContent
-        );
-        await homepage.clickYesBtn();
-        await homepage.verifyURL(ENV.LOGOUT_URL!);
+        await test.step(`Assert logout dialog is displayed, verify its content and logout`, async () => {
+            const expectedDialogTitle = expectedTexts.expectedLogoutDialogTitle;
+            const expectedDialogContent =
+                expectedTexts.expectedLogoutDialogContent;
+            await homepage.verifyDialogTitleAndContent(
+                expectedDialogTitle,
+                expectedDialogContent
+            );
+            await homepage.clickYesBtn();
+            await homepage.verifyURL(ENV.LOGOUT_URL!);
+        });
     });
     test("Postcheck #2: File upload using SPC420", async ({ page }) => {
-        const homepage: HomePage = await login(page);
+        test.info().annotations.push({
+            type: "File upload using SPC420",
+            description:
+                "This test is for performing File upload to SIMS Finance using SPC420"
+        });
+        //Login
+        const homepage =
+            await test.step(`Login using ${ENV.USERID!}`, async () => {
+                return await login(page);
+            });
         const screen = expectedTexts.SPC420;
-
-        await homepage.clickHamburgerMenuButton();
-        await homepage.fillSearchOptions(screen);
-        await homepage.clickSearchOptionInList();
-        const spc420 = new SPC420(page);
+        const spc420 = await test.step(
+            "Go to the screen" + screen,
+            async () => {
+                await homepage.clickHamburgerMenuButton();
+                await homepage.fillSearchOptions(screen);
+                await homepage.clickSearchOptionInList();
+                return new SPC420(page);
+            }
+        );
         const directory = "ADM - Administration";
         const subDirectory = "LOGS";
-        await spc420.clickSubDirectoryInDirectory(directory, subDirectory);
-
-        await spc420.verifySubDirectoryOpened(directory, subDirectory);
+        await test.step(
+            "Click on " + subDirectory + " in " + directory,
+            async () => {
+                await spc420.clickSubDirectoryInDirectory(
+                    directory,
+                    subDirectory
+                );
+                await spc420.verifySubDirectoryOpened(directory, subDirectory);
+            }
+        );
 
         // await spc420.clickTreeItem();
 

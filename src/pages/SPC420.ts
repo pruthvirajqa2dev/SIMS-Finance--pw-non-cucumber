@@ -72,7 +72,7 @@ export default class SPC420 extends BasePage {
         await this.isHeadingVisibleByText(this.direcotoryDetailsText);
         const pkgDirLocator = this.page.locator(this.pkgDirLocator);
         const packageName = dir.split(" ")[0] + "_" + subdir;
-        expect(pkgDirLocator).toContainText(packageName);
+        await expect(pkgDirLocator).toContainText(packageName);
         // await expect(this.page.locator(this.pkgDirLocator)).toHaveText();
         // await this.page.locator(this.pkgDirLocator).textContent
     }
