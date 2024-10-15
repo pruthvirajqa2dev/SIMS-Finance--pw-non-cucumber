@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start":"set NODE_ENV=uat && echo %NODE_ENV%",
+    "start": "set NODE_ENV=uat && echo %NODE_ENV%",
     "test:training": "cross-env test_env=training npx playwright test src/tests/PostChecksTests.spec.ts",
     "test:uat": "cross-env test_env=uat npx playwright test src/tests/PostChecksTests.spec.ts"
   },
@@ -15,6 +15,7 @@
     "@playwright/test": "^1.47.2",
     "@types/node": "^22.7.4",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "playwright-merge-html-reports": "^0.2.8"
   }
 }
