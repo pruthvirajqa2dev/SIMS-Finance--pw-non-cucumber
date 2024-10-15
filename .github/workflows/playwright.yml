@@ -2,9 +2,9 @@ name: Playwright Tests
 on:
     workflow_dispatch:
     push:
-        branches: [main]
+        branches: [Main]
     pull_request:
-        branches: [main]
+        branches: [Main]
 jobs:
     playwright-test:
         name: 🧪 SIMS Finance Tests (${{ matrix.shardIndex }}/${{ strategy.job-total }})
