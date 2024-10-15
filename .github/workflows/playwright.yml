@@ -32,8 +32,7 @@ jobs:
               run: npx playwright install --with-deps
             - name: Run Playwright tests
               run: npx playwright test --project=${{ matrix.project }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --workers=1
-            - name: Setup Pages
-              uses: actions/configure-pages@v2
+
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
               with:
@@ -67,6 +66,13 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: html-report
+                  path: playwright-report/
+            - name: Setup Pages
+              uses: actions/configure-pages@v2
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v1
+              with:
+                  name: html-reports-to-pages
                   path: playwright-report/
             - name: Deploy to GitHub Pages
               id: deployment
