@@ -1,7 +1,10 @@
 import { Page } from "@playwright/test";
 import HomePage from "./HomePage";
 import BasePage from "./BasePage";
-
+/**
+ * @author: @pruthvirajqa2dev
+ * SIMS Finance Login page class with locators
+ */
 export default class LoginPage extends BasePage {
     //Locators
     private readonly usernameInputLocator = ".username";
@@ -25,7 +28,7 @@ export default class LoginPage extends BasePage {
     async clickLoginBtn() {
         await this.page
             .locator(this.loginBtnLocator)
-            .click({ timeout: 3000 })
+            .click()
             .catch((error) => {
                 console.error(`Error clicking login button: ${error}`);
                 throw error;

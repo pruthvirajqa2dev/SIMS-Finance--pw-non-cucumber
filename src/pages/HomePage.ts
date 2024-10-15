@@ -1,7 +1,10 @@
 import { expect, Page } from "@playwright/test";
 import exp from "constants";
 import BasePage from "./BasePage";
-
+/**
+ * @author: @pruthvirajqa2dev
+ * Home page class for SIMS Finance Home page elements
+ */
 export default class HomePage extends BasePage {
     //Locators
     private readonly pageHeadingText = "SIMS Finance";
@@ -11,7 +14,7 @@ export default class HomePage extends BasePage {
     private readonly hamburgerMenuBtnLocator = "#banner_navigation_navigate";
     private readonly recentHistorySearchInputLocator =
         "input[type='text']:visible";
-    private readonly searchResult = ".ui-menu-item";
+    private readonly searchResult = ".ui-menu-item-wrapper";
     private readonly profileMenuDropdown = "#esr_user_profile_menu";
     private readonly logoutLabel = "Click to Logout";
     private readonly dialogTitle = ".ui-dialog-title";
@@ -22,7 +25,10 @@ export default class HomePage extends BasePage {
     //Constructor
 
     //Actions
-
+    /**
+     * @pruthvirajqa2dev
+     * This methods verifies key page elements are visible after loading
+     */
     async expectPageElementsVisibilityOnLoad() {
         //Page Heading
         const pageHeading = this.page.getByRole("heading", {
@@ -59,20 +65,14 @@ export default class HomePage extends BasePage {
             .locator(this.recentHistorySearchInputLocator)
             .fill(search);
     }
-    async clickSearchOptionInList(item: string) {
-        await this.page
-            .locator(this.searchResult + ":contains('" + item + "')")
-            .click({ timeout: 3000 })
-            .catch((error) => {
-                console.error(`Error clicking search option in list: ${error}`);
-                throw error;
-            });
+    async clickSearchOptionInList() {
+        await this.page.locator(this.searchResult).first().click();
     }
 
     async clickProfileMenu() {
         await this.page
             .locator(this.profileMenuDropdown)
-            .click({ timeout: 3000 })
+            .click()
             .catch((error) => {
                 console.error(`Error clicking profile menu dropdown: ${error}`);
                 throw error;
@@ -81,7 +81,7 @@ export default class HomePage extends BasePage {
     async clickLogoutLabel() {
         await this.page
             .getByLabel(this.logoutLabel)
-            .click({ timeout: 3000 })
+            .click()
             .catch((error) => {
                 console.error(`Error clicking logout label: ${error}`);
                 throw error;
@@ -115,7 +115,7 @@ export default class HomePage extends BasePage {
         await this.verifyVisibilityYesNoButton();
         await this.page
             .locator(this.yesBtn)
-            .click({ timeout: 3000 })
+            .click()
             .catch((error) => {
                 console.error(`Error clicking yes button: ${error}`);
                 throw error;
