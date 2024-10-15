@@ -40,14 +40,7 @@ jobs:
                   name: blob-report-${{ matrix.shardIndex }}
                   path: blob-report
                   retention-days: 30
-            - name: Upload artifact
-              uses: actions/upload-pages-artifact@v1
-              with:
-                  # Upload entire repository
-                  path: test-merge-report-demo/
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v1
+
     merge-reports:
         needs: [playwright-test]
         runs-on: ubuntu-latest
@@ -71,3 +64,6 @@ jobs:
               with:
                   name: html-report
                   path: playwright-report/
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v1
