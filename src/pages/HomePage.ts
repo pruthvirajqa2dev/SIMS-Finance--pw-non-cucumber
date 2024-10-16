@@ -17,8 +17,7 @@ export default class HomePage extends BasePage {
     private readonly searchResult = ".ui-menu-item-wrapper";
     private readonly profileMenuDropdown = "#esr_user_profile_menu";
     private readonly logoutLabel = "Click to Logout";
-    private readonly dialogTitle = ".ui-dialog-title";
-    private readonly dialogContent = "#control_span_esr_prompt";
+
     private readonly yesBtn = "#esr_messagebox_yes";
     private readonly noBtn = "#esr_messagebox_no";
 
@@ -91,16 +90,7 @@ export default class HomePage extends BasePage {
         await this.clickProfileMenu();
         await this.clickLogoutLabel();
     }
-    async verifyDialogTitleAndContent(title: string, content: string) {
-        await expect(
-            this.page.locator(this.dialogTitle),
-            "Check if dialog title is " + title
-        ).toHaveText(title);
-        await expect(
-            this.page.locator(this.dialogContent),
-            "Check if dialog content is " + content
-        ).toHaveText(content);
-    }
+
     async verifyVisibilityYesNoButton() {
         await expect(
             this.page.locator(this.yesBtn),

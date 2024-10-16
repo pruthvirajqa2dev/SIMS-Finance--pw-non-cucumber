@@ -41,10 +41,8 @@ test.describe("Postchecks", () => {
             const expectedDialogTitle = expectedTexts.expectedLogoutDialogTitle;
             const expectedDialogContent =
                 expectedTexts.expectedLogoutDialogContent;
-            await homepage.verifyDialogTitleAndContent(
-                expectedDialogTitle,
-                expectedDialogContent
-            );
+            await homepage.verifyDialogTitle(expectedDialogTitle);
+            await homepage.verifyDialogContent(expectedDialogContent);
             await homepage.clickYesBtn();
             await homepage.verifyURL(ENV.LOGOUT_URL!);
         });
@@ -62,7 +60,7 @@ test.describe("Postchecks", () => {
             });
         const screen = expectedTexts.SPC420;
         const spc420 = await test.step(
-            "Go to the screen" + screen,
+            "Go to the screen " + screen,
             async () => {
                 await homepage.clickHamburgerMenuButton();
                 await homepage.fillSearchOptions(screen);
@@ -82,9 +80,8 @@ test.describe("Postchecks", () => {
                 await spc420.verifySubDirectoryOpened(directory, subDirectory);
             }
         );
-
-        // await spc420.clickTreeItem();
-
-        // page.waitForTimeout(10000);
+        await test.step("Upload the file", async () => {
+            await spc420.uploadFile();
+        });
     });
 });

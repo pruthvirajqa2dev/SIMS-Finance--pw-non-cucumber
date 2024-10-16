@@ -16,6 +16,7 @@
     "@types/node": "^22.7.4",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "glob": "^11.0.0",
     "playwright-merge-html-reports": "^0.2.8"
   }
 }

@@ -1,6 +1,11 @@
 import { expect, Page } from "@playwright/test";
 import HomePage from "./HomePage";
 import BasePage from "./BasePage";
+import * as fs from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
+// <reference lib="dom"/>
+
 /**
  * @author: @pruthvirajqa2dev
  * This page class is for SPC420 screen related page elements and actions on them
@@ -17,6 +22,12 @@ export default class SPC420 extends BasePage {
     private readonly downArrowLocator =
         '.fa-angle-down[data-control_type="TREE_IMAGE"]';
     private readonly pkgDirLocator = '[data-alias="PACKAGE_DIR"]';
+    private readonly uploadFileBtnLocator = "Click to Upload File";
+    private readonly uploadBtnLocator = "Upload";
+
+    private readonly uploadFileText = "Upload File";
+    private readonly browseForFileLocator = "Browse for a file";
+    private readonly dropableAreaInput = ".dhx-dropable-area";
     private readonly directoryADMText = "ADM - Administration";
     private readonly subDirectoryLOGSText = "LOGS";
 
@@ -73,7 +84,26 @@ export default class SPC420 extends BasePage {
         const pkgDirLocator = this.page.locator(this.pkgDirLocator);
         const packageName = dir.split(" ")[0] + "_" + subdir;
         await expect(pkgDirLocator).toContainText(packageName);
-        // await expect(this.page.locator(this.pkgDirLocator)).toHaveText();
-        // await this.page.locator(this.pkgDirLocator).textContent
+    }
+
+    /**
+     * Function to upload file
+     */
+    async uploadFile() {
+        await this.clickButtonUsingRole(this.uploadFileBtnLocator);
+        await this.verifyDialogTitle(this.uploadFileText);
+        const resolution = await this.fsWriteFile(".TXT");
+        expect(resolution).toBe("File created");
+        const newestFileName: string | null = await this.getNewestFileNameInDir(
+            this.testFileDir
+        );
+        // Start waiting for file chooser before clicking. Note no await.
+        const fileChooserPromise = this.page.waitForEvent("filechooser");
+        await this.clickButtonUsingRole(this.uploadBtnLocator);
+        await this.clickButtonUsingRole(this.browseForFileLocator);
+        const fileChooser = await fileChooserPromise;
+        await fileChooser.setFiles(
+            path.join(this.testFileDir + newestFileName!)
+        );
     }
 }
