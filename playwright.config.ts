@@ -31,7 +31,7 @@ if (process.env.test_env) {
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    timeout: 60 * 1000,
+    timeout: 20 * 1000,
     testDir: "./src/tests",
     /* Run tests in files in parallel */
     fullyParallel: true,
@@ -47,7 +47,7 @@ export default defineConfig({
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: `${process.env.URL}`,
-
+        video: "on",
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "on-first-retry",
         screenshot: "on"

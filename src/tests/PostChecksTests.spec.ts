@@ -5,18 +5,21 @@ import ENV from "../config/env";
 import expectedTexts from "../data/expectedTexts.json";
 import SPC420 from "../pages/SPC420";
 
-async function login(page) {
-    const loginPage = new LoginPage(page);
+async function login(page, testInfo) {
+    const loginPage = new LoginPage(page, testInfo);
     // await page.setViewportSize({ width: 1266, height: 586 });
     //Login using username and password
     const homepage: HomePage = await loginPage.login(
         ENV.USERID!,
-        ENV.PASSWORD!
+        ENV.PASSWORD!,
+        testInfo
     );
     return homepage;
 }
 test.describe("Postchecks", () => {
-    test("Postcheck # 1 and #2: Login and Logout", async ({ page }) => {
+    test("Postcheck # 1 and #2: Login and Logout", async ({
+        page
+    }, testInfo) => {
         test.info().annotations.push({
             type: "Login and Logout",
             description:
@@ -26,7 +29,7 @@ test.describe("Postchecks", () => {
         //Login
         const homepage =
             await test.step(`Login using ${ENV.USERID!}`, async () => {
-                return await login(page);
+                return await login(page, testInfo);
             });
 
         //Logout
@@ -47,7 +50,9 @@ test.describe("Postchecks", () => {
             await homepage.verifyURL(ENV.LOGOUT_URL!);
         });
     });
-    test("Postcheck #2: File upload using SPC420", async ({ page }) => {
+    test("Postcheck #2: File upload using SPC420", async ({
+        page
+    }, testInfo) => {
         test.info().annotations.push({
             type: "File upload using SPC420",
             description:
@@ -56,7 +61,7 @@ test.describe("Postchecks", () => {
         //Login
         const homepage =
             await test.step(`Login using ${ENV.USERID!}`, async () => {
-                return await login(page);
+                return await login(page, testInfo);
             });
         const screen = expectedTexts.SPC420;
         const spc420 = await test.step(
@@ -65,7 +70,7 @@ test.describe("Postchecks", () => {
                 await homepage.clickHamburgerMenuButton();
                 await homepage.fillSearchOptions(screen);
                 await homepage.clickSearchOptionInList();
-                return new SPC420(page);
+                return new SPC420(page, testInfo);
             }
         );
         const directory = "ADM - Administration";
@@ -82,6 +87,7 @@ test.describe("Postchecks", () => {
         );
         await test.step("Upload the file", async () => {
             await spc420.uploadFile();
+            await spc420.selectSchoolId(expectedTexts.expectedSchoolName);
         });
     });
 });

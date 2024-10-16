@@ -19,13 +19,13 @@ export default class LoginPage extends BasePage {
         await this.page.locator(this.usernameInputLocator).fill(username);
         await this.page.locator(this.passwordInputLocator).fill(password);
     }
-    async login(username: string, password: string) {
+    async login(username: string, password: string, testInfo) {
         await this.navigateToPage("/");
         await this.fillUsernameAndPassword(username, password);
-        const homepage: HomePage = await this.clickLoginBtn();
+        const homepage: HomePage = await this.clickLoginBtn(testInfo);
         return homepage;
     }
-    async clickLoginBtn() {
+    async clickLoginBtn(testInfo) {
         await this.page
             .locator(this.loginBtnLocator)
             .click()
@@ -34,7 +34,7 @@ export default class LoginPage extends BasePage {
                 throw error;
             });
 
-        const homePage = new HomePage(this.page);
+        const homePage = new HomePage(this.page, testInfo);
         return homePage;
     }
 }

@@ -1,5 +1,8 @@
 {
     "expectedLogoutDialogTitle": "Logout?",
     "expectedLogoutDialogContent" : "'Logout' Are you sure?",
-    "SPC420":"SPC420"
+    "SPC420":"SPC420",
+    "expectedSchoolName":"Green Abbey School",
+    "expectedSchoolID":"000001",
+    "expectedSchoolIDDialogTitle":"School ID"
 }

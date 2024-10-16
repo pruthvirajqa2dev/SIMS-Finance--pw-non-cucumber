@@ -27,11 +27,14 @@ export default class SPC420 extends BasePage {
 
     private readonly uploadFileText = "Upload File";
     private readonly browseForFileLocator = "Browse for a file";
-    private readonly dropableAreaInput = ".dhx-dropable-area";
-    private readonly directoryADMText = "ADM - Administration";
-    private readonly subDirectoryLOGSText = "LOGS";
+    private readonly okBtnLocator = "OK";
+    private readonly fileCreatedText = "File created";
+    private readonly uploadedFileNameLocator = ".dhx_list-item--name";
+    private readonly uploadedFileNameOnUFDialogLocator = "#physical_file";
+    private readonly fileNameOnUFDialogLocator = "#rep_name";
+    private readonly successMarkLocator = "*[class^=dhx_item--success-mark]";
+    //*[class^=dhx_item--success-mark]
 
-    //Constructor
     //Actions
     /**
      * @author: @pruthvirajqa2dev
@@ -87,14 +90,14 @@ export default class SPC420 extends BasePage {
     }
 
     /**
-     * Function to upload file
+     * Function to upload file using fileChooser class in Playwright
      */
     async uploadFile() {
         await this.clickButtonUsingRole(this.uploadFileBtnLocator);
         await this.verifyDialogTitle(this.uploadFileText);
         const resolution = await this.fsWriteFile(".TXT");
-        expect(resolution).toBe("File created");
-        const newestFileName: string | null = await this.getNewestFileNameInDir(
+        await expect(resolution).toBe(this.fileCreatedText);
+        const newestFileName: string | null = this.getNewestFileNameInDir(
             this.testFileDir
         );
         // Start waiting for file chooser before clicking. Note no await.
@@ -105,5 +108,26 @@ export default class SPC420 extends BasePage {
         await fileChooser.setFiles(
             path.join(this.testFileDir + newestFileName!)
         );
+
+        await expect(
+            this.page.locator(this.uploadedFileNameLocator),
+            "Check if uploaded file name is correct"
+        ).toContainText(newestFileName!);
+        await expect(
+            this.page.locator(this.successMarkLocator),
+            "Checking if Success Mark (✔) is visible"
+        ).toBeVisible();
+        await this.clickButtonUsingRole(this.okBtnLocator);
+        const fileName = newestFileName?.split(".")[0].toUpperCase();
+        const fileExt = newestFileName?.split(".")[1].toUpperCase();
+
+        await expect(
+            this.page.locator(this.uploadedFileNameOnUFDialogLocator)
+        ).toHaveValue(newestFileName!.toUpperCase());
+        await expect(
+            this.page.locator(this.fileNameOnUFDialogLocator)
+        ).toHaveValue(fileName!);
+
+        // const titleExist = this.doesDialogWithTitleExist("School ID");
     }
 }
