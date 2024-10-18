@@ -145,7 +145,11 @@ export default abstract class BasePage {
     async fsWriteFile(ext: string) {
         return new Promise((resolve) => {
             fs.writeFile(
-                "./Test Files/test" + Date.now() + ext,
+                path.join(
+                    __dirname,
+                    "../../",
+                    "/Test Files/test" + Date.now() + ext
+                ),
                 "SIMS Finance Test File Content " + Date.now(),
                 function (err) {
                     if (err) {
@@ -162,7 +166,7 @@ export default abstract class BasePage {
      * @returns latestFile.name
      */
     getNewestFileNameInDir(dirPath: string): string | null {
-        const files = fs.readdirSync(dirPath);
+        const files = fs.readdirSync(path.join(__dirname, "../../", dirPath));
 
         if (files.length === 0) {
             console.log("No files in the directory");
