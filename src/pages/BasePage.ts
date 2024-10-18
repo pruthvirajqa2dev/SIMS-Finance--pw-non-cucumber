@@ -143,6 +143,8 @@ export default abstract class BasePage {
      * @returns Promise
      */
     async fsWriteFile(ext: string) {
+        console.log("Current directory is: " + __dirname);
+        console.log("Previous directory is: " + path.join(__dirname, "../"));
         return new Promise((resolve) => {
             fs.writeFile(
                 path.join(
