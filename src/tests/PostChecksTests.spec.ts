@@ -16,7 +16,7 @@ async function login(page, testInfo) {
     );
     return homepage;
 }
-test.describe("Postchecks", () => {
+test.describe("Postchecks on " + `${process.env.test_env}`, () => {
     test("Postcheck # 1 and #2: Login and Logout", async ({
         page
     }, testInfo) => {

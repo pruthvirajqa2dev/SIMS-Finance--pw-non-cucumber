@@ -19,6 +19,7 @@ if (process.env.test_env) {
         path: `${__dirname}//src//config//.env.${defaultEnv}`,
         override: true
     });
+    process.env.test_env = defaultEnv;
 }
 // if (!process.env.NODE_ENV) {
 //     require("dotenv").config({ path: `${__dirname}//src//config//.env` });
