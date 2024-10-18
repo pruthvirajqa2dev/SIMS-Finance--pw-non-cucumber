@@ -41,7 +41,7 @@ jobs:
                   retention-days: 30
 
     merge-reports:
-        needs: [playwright-test]
+        # needs: [playwright-test]
         runs-on: ubuntu-latest
         permissions:
             contents: read
