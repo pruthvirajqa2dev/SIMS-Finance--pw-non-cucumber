@@ -25,7 +25,6 @@ export default class HomePage extends BasePage {
 
     //Actions
     /**
-     * @pruthvirajqa2dev
      * This methods verifies key page elements are visible after loading
      */
     async expectPageElementsVisibilityOnLoad() {
@@ -56,18 +55,30 @@ export default class HomePage extends BasePage {
             .filter({ hasText: this.tasksHeadingText });
         expect(tasksHeading).toBeVisible();
     }
+    /**
+     * This function clicks on Hamburger menu button
+     */
     async clickHamburgerMenuButton() {
         await this.page.locator(this.hamburgerMenuBtnLocator).click();
     }
+    /**
+     * This function enters search criteria into the search textbox
+     * @param search
+     */
     async fillSearchOptions(search: string) {
         await this.page
             .locator(this.recentHistorySearchInputLocator)
             .fill(search);
     }
+    /**
+     * This function clicks first search option displayed on the search list
+     */
     async clickSearchOptionInList() {
         await this.page.locator(this.searchResult).first().click();
     }
-
+    /**
+     *This function clicks on profile menu
+     */
     async clickProfileMenu() {
         await this.page
             .locator(this.profileMenuDropdown)

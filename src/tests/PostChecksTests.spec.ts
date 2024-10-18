@@ -44,8 +44,14 @@ test.describe("Postchecks", () => {
             const expectedDialogTitle = expectedTexts.expectedLogoutDialogTitle;
             const expectedDialogContent =
                 expectedTexts.expectedLogoutDialogContent;
-            await homepage.verifyDialogTitle(expectedDialogTitle);
-            await homepage.verifyDialogContent(expectedDialogContent);
+            await homepage.expectElementToHaveText(
+                homepage.dialogTitleLocator,
+                expectedDialogTitle
+            );
+            await homepage.expectElementToHaveText(
+                homepage.dialogContentLocator,
+                expectedDialogContent
+            );
             await homepage.clickYesBtn();
             await homepage.verifyURL(ENV.LOGOUT_URL!);
         });

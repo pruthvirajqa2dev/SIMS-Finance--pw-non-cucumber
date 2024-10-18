@@ -20,7 +20,7 @@ export default class LoginPage extends BasePage {
         await this.page.locator(this.passwordInputLocator).fill(password);
     }
     async login(username: string, password: string, testInfo) {
-        await this.navigateToPage("/");
+        await this.navigateTo("/");
         await this.fillUsernameAndPassword(username, password);
         const homepage: HomePage = await this.clickLoginBtn(testInfo);
         return homepage;

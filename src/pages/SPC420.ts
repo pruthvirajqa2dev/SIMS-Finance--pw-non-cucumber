@@ -22,7 +22,7 @@ export default class SPC420 extends BasePage {
     private readonly downArrowLocator =
         '.fa-angle-down[data-control_type="TREE_IMAGE"]';
     private readonly pkgDirLocator = '[data-alias="PACKAGE_DIR"]';
-    private readonly uploadFileBtnLocator = "Click to Upload File";
+    private readonly uploadFileBtnRoleName = "Click to Upload File";
     private readonly uploadBtnLocator = "Upload";
 
     private readonly uploadFileText = "Upload File";
@@ -93,8 +93,11 @@ export default class SPC420 extends BasePage {
      * Function to upload file using fileChooser class in Playwright
      */
     async uploadFile() {
-        await this.clickButtonUsingRole(this.uploadFileBtnLocator);
-        await this.verifyDialogTitle(this.uploadFileText);
+        await this.clickButtonUsingRole(this.uploadFileBtnRoleName);
+        await this.expectElementToHaveText(
+            this.dialogTitleLocator,
+            this.uploadFileText
+        );
         const resolution = await this.fsWriteFile(".TXT");
         await expect(resolution).toBe(this.fileCreatedText);
         const newestFileName: string | null = this.getNewestFileNameInDir(
